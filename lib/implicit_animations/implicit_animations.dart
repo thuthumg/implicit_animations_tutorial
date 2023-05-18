@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:implicit_animations_tutorial/implicit_animations/explicit_animation_favourite_icon_button.dart';
 
 const kAnimationDuration = const Duration(milliseconds: 500);
 const kAnimationDurationForScreenFadeIn = const Duration(milliseconds: 1000);
@@ -19,129 +20,158 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
     return Scaffold(
       body: Stack(
         children: [
-          AnimatedContainer(
-            duration: kAnimationDuration,
-            color: (isChangeBackgroundColor) ? Colors.black : Colors.white,
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
-                    children: [
-                      AnimatedContainer(
-                        width: (isNewDimensions) ? 350 : 250,
-                        height: (isNewDimensions) ? 300 : 200,
-                        duration: kAnimationDuration,
-                        curve: Curves.easeInCubic,
-                        child: Image.asset(
-                          "assets/images/bird.png",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.grey,
-                        ),
-                      )
-                    ],
-                  ),
-                  AnimatedSize(
-                    duration: kAnimationDuration,
-                    child: Container(
-                      height: isDescriptionShown ? null : 0.0,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
+          TweenAnimationBuilder(
+            duration: kAnimationDurationForScreenFadeIn,
+            tween: Tween<double>(begin: 0, end:  1),
+            builder: (context, double _opacity, child) => Opacity(
+              opacity: _opacity,
+              child: child,),
+            child: AnimatedContainer(
+              duration: kAnimationDuration,
+              color: (isChangeBackgroundColor) ? Colors.black : Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: [
+                        AnimatedContainer(
+                          width: (isNewDimensions) ? 350 : 250,
+                          height: (isNewDimensions) ? 300 : 200,
+                          duration: kAnimationDuration,
+                          curve: Curves.easeInCubic,
+                          child: Image.asset(
+                            "assets/images/bird.png",
+                            fit: BoxFit.cover,
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              "Birds are vertebrates (animals with backbones) with wings and feathers.Most birds can fly , using powerful muscles to flap their wings._Birds' bodies are covered with a lignt,tough layer of feathers and they have very light skeletons. Instead of teeth, they have hornlike beaks , or bills.",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: isChangeBackgroundColor ? Colors.white : Colors.black
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: ExplicitAnimationFavouriteIconButton(),
+                        )
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  AnimatedSize(
-                    duration: kAnimationDuration,
-                    child: AnimatedSwitcher(
+                    AnimatedSize(
                       duration: kAnimationDuration,
-                      child:(isChangeButtonsLayout) ?
-                      PrimaryButtonsInWrap(
-                        onTapChangeDimension: () {
-                          setState(() {
-                            isNewDimensions = !isNewDimensions;
-                            debugPrint(
-                                "check dimension status= ${isNewDimensions} ");
-                          });
-                        },
-                        onTapHideOrShowDescription: () {
-                          setState(() {
-                            isDescriptionShown = !isDescriptionShown;
-                          });
-                        },
-                        onTapChangeTheme: () {
-                          setState(() {
-                            setState(() {
-                              isChangeBackgroundColor = !isChangeBackgroundColor;
-                            });
-                          });
-                        },
-                        isDescriptionShown: isDescriptionShown,
-                      ):
-                      PrimaryButtonsInColumn(
-                        onTapChangeDimension: () {
-                          setState(() {
-                            isNewDimensions = !isNewDimensions;
-                            debugPrint(
-                                "check dimension status= ${isNewDimensions} ");
-                          });
-                        },
-                        onTapHideOrShowDescription: () {
-                          setState(() {
-                            isDescriptionShown = !isDescriptionShown;
-                          });
-                        },
-                        onTapChangeTheme: () {
-                          setState(() {
-                            setState(() {
-                              isChangeBackgroundColor = !isChangeBackgroundColor;
-                            });
-                          });
-                        },
-                        isDescriptionShown: isDescriptionShown,
+                      child: Container(
+                        height: isDescriptionShown ? null : 0.0,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                "Birds are vertebrates (animals with backbones) with wings and feathers.Most birds can fly , using powerful muscles to flap their wings._Birds' bodies are covered with a lignt,tough layer of feathers and they have very light skeletons. Instead of teeth, they have hornlike beaks , or bills.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: isChangeBackgroundColor ? Colors.white : Colors.black
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10,),
-                  PrimaryButton(onTap: (){
-                    setState(() {
-                      isChangeButtonsLayout = !isChangeButtonsLayout;
-                    });
-                  }, label: "Change Button Layout",
-                  color: Colors.red,)
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    AnimatedSize(
+                      duration: kAnimationDuration,
+                      child: AnimatedSwitcher(
+                        duration: kAnimationDuration,
+                        child:(isChangeButtonsLayout) ?
+                        PrimaryButtonsInWrap(
+                          onTapChangeDimension: () {
+                            setState(() {
+                              isNewDimensions = !isNewDimensions;
+                              debugPrint(
+                                  "check dimension status= ${isNewDimensions} ");
+                            });
+                          },
+                          onTapHideOrShowDescription: () {
+                            setState(() {
+                              isDescriptionShown = !isDescriptionShown;
+                            });
+                          },
+                          onTapChangeTheme: () {
+                            setState(() {
+                              setState(() {
+                                isChangeBackgroundColor = !isChangeBackgroundColor;
+                              });
+                            });
+                          },
+                          isDescriptionShown: isDescriptionShown,
+                        ):
+                        PrimaryButtonsInColumn(
+                          onTapChangeDimension: () {
+                            setState(() {
+                              isNewDimensions = !isNewDimensions;
+                              debugPrint(
+                                  "check dimension status= ${isNewDimensions} ");
+                            });
+                          },
+                          onTapHideOrShowDescription: () {
+                            setState(() {
+                              isDescriptionShown = !isDescriptionShown;
+                            });
+                          },
+                          onTapChangeTheme: () {
+                            setState(() {
+                              setState(() {
+                                isChangeBackgroundColor = !isChangeBackgroundColor;
+                              });
+                            });
+                          },
+                          isDescriptionShown: isDescriptionShown,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    PrimaryButton(onTap: (){
+                      setState(() {
+                        isChangeButtonsLayout = !isChangeButtonsLayout;
+                      });
+                    }, label: "Change Button Layout",
+                    color: Colors.red,)
+                  ],
+                ),
               ),
             ),
+          ),
+          TweenAnimationBuilder(
+            duration: kAnimationDurationForScreenFadeIn,
+            tween: Tween<double>(begin: 0, end:  1),
+            builder: (context, double _value, child) => Opacity(
+              opacity: _value,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: _value * 64,
+                  left: 10,
+                ),
+                child: child,
+              ),),
+            child: Text(
+              "PADC Animations",
+              style: TextStyle(
+                fontWeight:  FontWeight.bold,
+                color: (isChangeBackgroundColor) ? Colors.white : Colors.black,
+                fontSize: 25,
+              ),
+            ),
+
+
+
           ),
         ],
       ),
     );
   }
 }
+
 class PrimaryButtonsInColumn extends StatefulWidget {
   Function onTapChangeDimension;
   Function onTapHideOrShowDescription;
